@@ -11,11 +11,8 @@ import {useEffect} from "react";
 import {API_URL} from "@/constant/constant";
 
 export default function ProductTable() {
-    const GET_ALL_PRODUCTS_API_URL = "http://localhost:8080/products/all";
-
     const [products, setProducts] = React.useState([]);
     const [columns, setColumns] = React.useState([]);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,7 +46,7 @@ export default function ProductTable() {
 
     return (
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer sx={{ maxHeight: 440 }}>
+            <TableContainer>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
