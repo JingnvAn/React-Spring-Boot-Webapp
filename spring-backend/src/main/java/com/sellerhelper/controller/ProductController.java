@@ -2,7 +2,9 @@ package com.sellerhelper.controller;
 
 import com.sellerhelper.constant.ErrorMessage;
 import com.sellerhelper.constant.ResourceNotFoundException;
+import com.sellerhelper.constant.ValidationException;
 import com.sellerhelper.entity.ProductEntity;
+import com.sellerhelper.service.HolidayHelper;
 import com.sellerhelper.service.ProductService;
 import com.sellerhelper.validator.ProductValidator;
 import org.json.JSONArray;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +28,8 @@ public class ProductController {
     ProductService productService;
     @Autowired
     ProductValidator productValidator;
+    @Autowired
+    HolidayHelper holidayHelper;
 
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
@@ -66,7 +71,10 @@ public class ProductController {
                                                                 @RequestParam("maxDaysToShip") String maxDaysToShip ,
                                                                 @RequestParam("shipOnWeekends") String shipOnWeekends){
         try {
-            LocalDate date = productService.calculateShipDateByPurchaseDate(purchaseDate, Integer.parseInt(maxDaysToShip), Boolean.parseBoolean(shipOnWeekends));
+            LocalDate date = productService.calculateShipDateByPurchaseDate(purchaseDate,
+                    Integer.parseInt(maxDaysToShip),
+                    Boolean.parseBoolean(shipOnWeekends),
+                    holidayHelper);
             return ResponseEntity.ok(date.toString());
         } catch (Exception e1){
             String errorMsg = e1.getMessage() + "\n";
@@ -83,7 +91,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new JSONObject(product).toString(4));
     }
 
-    @PostMapping(value="/createBatch")
+    @PostMapping(value="/create-batch")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> createProducts(@RequestBody String request) {
         JSONArray productsJsonArray = new JSONArray(request);
@@ -98,4 +106,62 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new JSONArray(createdProductList).toString(4));
     }
 
+    @GetMapping(value = "/get-us-traditional-holidays")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<String> getTraditionalUsHolidays() {
+        return ResponseEntity.ok(holidayHelper.getUsTraditionalHolidays().toString());
+    }
+
+    @GetMapping(value = "/get-user-holidays")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<String> getUserDefinedHolidays() {
+        return ResponseEntity.ok(holidayHelper.getUserDefinedHolidays().toString());
+    }
+
+    @PostMapping(value = "/set-user-holidays")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<String> setUserDefinedHolidays(@RequestBody String request) {
+        if(request == null || request.isEmpty()){
+            throw new ValidationException(String.format(ErrorMessage.INVALID_DATE_FORMAT.getMessage(), ""));
+        }
+        try {
+            List<String> validDates = new ArrayList<>();
+            for(String s : request.strip().split(",")){
+                holidayHelper.validateDateFormat(s);
+                validDates.add(s);
+            }
+            holidayHelper.setUserDefinedHolidays(validDates);
+            return ResponseEntity.ok(holidayHelper.getUserDefinedHolidays().toString());
+        } catch (ValidationException validationException){
+            return ResponseEntity.badRequest().body(validationException.getMessage());
+        } catch (RuntimeException runtimeException){
+            return ResponseEntity.internalServerError().body(ErrorMessage.INTERNAL_SERVER_ERROR.getMessage());
+        }
+    }
+    @GetMapping(value = "/holiday-test")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public ResponseEntity<String> isHoliday(@RequestBody String request) {
+        try {
+            List<String> holidays = new ArrayList<>();
+            List<String> nonHolidays = new ArrayList<>();
+            for(String s : request.strip().split(",")){
+                holidayHelper.validateDateFormat(s);
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+                LocalDate localDate = LocalDate.parse(s, formatter);
+
+                if(holidayHelper.isHoliday(localDate)){
+                    holidays.add(s);
+                }else{
+                    nonHolidays.add(s);
+                }
+            }
+            JSONObject json = new JSONObject();
+            json.put("validHolidays", holidays.toString());
+            json.put("notHolidays", nonHolidays.toString());
+            return ResponseEntity.ok().body(json.toString(4));
+        } catch (ValidationException validationException){
+            return ResponseEntity.badRequest().body(validationException.getMessage());
+        }
+    }
 }

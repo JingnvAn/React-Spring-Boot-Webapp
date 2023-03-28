@@ -18,10 +18,7 @@ export default function ProductTable() {
         const fetchData = async () => {
             try {
                 const response = await fetch(API_URL.getAllProduct, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
+                    method: "GET"
                 });
                 const products = await response.json();
                 setProducts(products);

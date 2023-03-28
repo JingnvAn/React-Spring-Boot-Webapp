@@ -24,6 +24,7 @@ public class ProductService {
     private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
 
     public List<ProductEntity> getAllProducts() {
+        logger.debug("About to getAllProducts ...");
         List<ProductEntity> products = new ArrayList<>();
         for (ProductEntity p : productRepository.findAll()){
             products.add(p);
@@ -32,6 +33,7 @@ public class ProductService {
     }
 
     public ProductEntity getProductById(String id){
+        logger.debug("Entered getProductById for id: " + id);
         return productRepository.findById(id).orElse(null);
     }
 
@@ -43,7 +45,7 @@ public class ProductService {
         product.setInventoryQuantity(productJson.getInt(ProductValidator.Properties.INVENTORY_QUANTITY.getValue()));
         product.setMaxBusinessDaysToShip(productJson.getInt(ProductValidator.Properties.MAX_BUSINESS_DAY_TO_SHIP.getValue()));
         product.setShipOnWeekends(productJson.getBoolean(ProductValidator.Properties.SHIP_ON_WEEKENDS.getValue()));
-
+        logger.debug("About to save product: " + new JSONObject(product).toString(4));
         return productRepository.save(product);
     }
 
@@ -69,10 +71,18 @@ public class ProductService {
                 daysToAdd--;
             }
         }
+        logger.debug("Shipping date for id "+ productId +" is " + dateTranslator(shipDate));
         return shipDate;
     }
 
-    public LocalDate calculateShipDateByPurchaseDate(String dateString, int maxDaysToShip, boolean shipOnWeekends) {
+    private String dateTranslator(LocalDate localDate) {
+        return localDate.getMonthValue()+"-"+localDate.getDayOfMonth()+"-"+localDate.getYear();
+    }
+
+    public LocalDate calculateShipDateByPurchaseDate(String dateString,
+                                                     int maxDaysToShip,
+                                                     boolean shipOnWeekends,
+                                                     HolidayHelper holidayHelper) {
         LocalDate purchaseDate = LocalDate.parse(dateString);
         LocalDate shipDate;
 
@@ -83,13 +93,19 @@ public class ProductService {
             shipDate = purchaseDate;
             while(daysToAdd > 1){
                 shipDate = shipDate.plusDays(1);
-                if(shipDate.getDayOfWeek() == DayOfWeek.SATURDAY || shipDate.getDayOfWeek() == DayOfWeek.SUNDAY){
+                if(shipDate.getDayOfWeek() == DayOfWeek.SATURDAY ||
+                        shipDate.getDayOfWeek() == DayOfWeek.SUNDAY ||
+                        isHoliday(shipDate, holidayHelper)){
                     daysToAdd++;
                 }
                 daysToAdd--;
             }
         }
+        logger.debug("Shipping date is " + dateTranslator(shipDate));
         return shipDate;
     }
 
+    private boolean isHoliday(LocalDate date, HolidayHelper holidayHelper) {
+        return holidayHelper.isHoliday(date);
+    }
 }

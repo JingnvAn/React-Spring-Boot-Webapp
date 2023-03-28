@@ -37,6 +37,7 @@ const ShippingDatePicker = ({ handleShippingDateChange }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker 
+        disablePast={true}
         defaultValue={dayjs(defaultDate)}
         value={selectedDate ? dayjs(selectedDate) : dayjs(defaultDate)}
         onChange={(newDate) => handleDateChange(newDate)}
