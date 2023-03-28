@@ -63,10 +63,10 @@ public class ProductController {
     @GetMapping(value="/shipping-date")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> getShippingDateByPurchaseDate(@RequestParam("purchaseDate") String purchaseDate,
-                                                                @RequestParam("maxDaysToShip") int maxDaysToShip ,
-                                                                @RequestParam("shipOnWeekends") boolean shipOnWeekends){
+                                                                @RequestParam("maxDaysToShip") String maxDaysToShip ,
+                                                                @RequestParam("shipOnWeekends") String shipOnWeekends){
         try {
-            LocalDate date = productService.calculateShipDateByPurchaseDate(purchaseDate, maxDaysToShip, shipOnWeekends);
+            LocalDate date = productService.calculateShipDateByPurchaseDate(purchaseDate, Integer.parseInt(maxDaysToShip), Boolean.parseBoolean(shipOnWeekends));
             return ResponseEntity.ok(date.toString());
         } catch (Exception e1){
             String errorMsg = e1.getMessage() + "\n";

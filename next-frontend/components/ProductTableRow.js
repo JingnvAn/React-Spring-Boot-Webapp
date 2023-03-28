@@ -3,19 +3,22 @@ import { useState, useEffect } from "react";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import {API_URL} from "@/constant/constant";
+import ShippingDatePicker from "./ShippingDatePicker";
 
 const ProductTableRow = ({product, columns}) => {
-    const BASE_SELLER_HELPER_API_URL = "http://localhost:8080/products"
-
     const [purchaseDate, setPurchaseDate] = useState(new Date().toISOString().slice(0,10));
     const [shippingDate, setShippingDate] = useState("TBD");
-
+    
+    const handleShippingDateChange = (newDate) => {
+        console.log(newDate)
+        setPurchaseDate(newDate)
+        console.log("set new Date in row!")
+    }
+    
     const handleRowData = (product, column) => {
         let value = "test";
-        console.log(column.id)
         if (column.id === "purchaseDate") {
-            const date = new Date();
-            value = date.toISOString().slice(0,10);
+            return <ShippingDatePicker handleShippingDateChange={handleShippingDateChange}/>
         } else if (column.id === "shippingDate") {
             value = shippingDate
         } else {
@@ -26,14 +29,12 @@ const ProductTableRow = ({product, columns}) => {
 
     const getShippingDateFromSellerHelper = (product) => {
         if (product !== null){
-            fetch(API_URL.getProductShippingDate, {
-                method:'GET',
-                data:{
-
-                }
-            }).then(response => response.text())
+            fetch(`${API_URL.getProductShippingDate}?` + new URLSearchParams({
+            purchaseDate: purchaseDate,
+            maxDaysToShip: product.maxBusinessDaysToShip,
+            shipOnWeekends: product.shipOnWeekends
+        })).then(response => response.text())
                 .then(data => {
-                    console.log("shipping date: ", data)
                     setShippingDate(data)
                 })
                 .catch(error => console.error(error))
@@ -41,8 +42,10 @@ const ProductTableRow = ({product, columns}) => {
     }
 
     useEffect(() => {
+        
         getShippingDateFromSellerHelper(product)
-    }, [purchaseDate])
+        console.log("calculate new shipping date!")
+    }, [product, purchaseDate])
 
     return (
         <>
@@ -52,6 +55,7 @@ const ProductTableRow = ({product, columns}) => {
                         {handleRowData(product, column)}
                     </TableCell>
                 ))}
+                
             </TableRow>
         </>
     );
