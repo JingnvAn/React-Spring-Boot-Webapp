@@ -54,8 +54,7 @@ const ProductTableRow = ({product, columns}) => {
                     <TableCell key={column.id}>
                         {handleRowData(product, column)}
                     </TableCell>
-                ))}
-                
+                ))}   
             </TableRow>
         </>
     );
