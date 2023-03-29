@@ -3,6 +3,7 @@ import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
+import TablePagination from '@mui/material/TablePagination';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import ProductTableRow from "@/components/ProductTableRow";
@@ -14,6 +15,17 @@ import { Container } from '@mui/system';
 export default function ProductTable() {
     const [products, setProducts] = useState([]);
     const [columns, setColumns] = useState([]);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+  
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    };
+  
+    const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(+event.target.value);
+      setPage(0);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,10 +55,15 @@ export default function ProductTable() {
     }, []);
 
 
+    const slicedProducts = products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
     return (
-        products.length !== 0 ? 
+        products.length === 0 ? 
+        <Container>
+            <CustomizedImage />
+        </Container> :
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            <TableContainer>
+            <TableContainer sx={{ maxHeight: 440 }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>
@@ -58,15 +75,21 @@ export default function ProductTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {products.map((product) => (
+                        {slicedProducts.map((product) => (
                             <ProductTableRow key={product.productId} product={product} columns={columns}/>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
-        </Paper> : 
-        <Container>
-            <CustomizedImage />
-        </Container>
+            <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={products.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+        </Paper>
     );
 }
