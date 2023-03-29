@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,12 +6,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import ProductTableRow from "@/components/ProductTableRow";
-import {useEffect} from "react";
+import CustomizedImage from "./CustomizedImage";
+import {useEffect, useState} from "react";
 import {API_URL} from "@/constant/constant";
+import { Container } from '@mui/system';
 
 export default function ProductTable() {
-    const [products, setProducts] = React.useState([]);
-    const [columns, setColumns] = React.useState([]);
+    const [products, setProducts] = useState([]);
+    const [columns, setColumns] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,7 +42,9 @@ export default function ProductTable() {
         fetchData();
     }, []);
 
+
     return (
+        products.length !== 0 ? 
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer>
                 <Table stickyHeader aria-label="sticky table">
@@ -61,6 +64,9 @@ export default function ProductTable() {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </Paper>
+        </Paper> : 
+        <Container>
+            <CustomizedImage />
+        </Container>
     );
 }
