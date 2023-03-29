@@ -26,7 +26,7 @@ function SimpleDialog(props) {
   );
 }
 
-const DialogWindow = ({onSubmit}) => {
+const DialogWindow = ({ onSubmit }) => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -46,6 +46,7 @@ const DialogWindow = ({onSubmit}) => {
       <SimpleDialog
         open={open}
         onClose={handleClose}
+        onSubmit={onSubmit}
       />
     </div>
   );

@@ -64,7 +64,7 @@ const InputBox = ({ onSubmit, onClose}) => {
         setOpen(true)
         setPullData(generateRandomString(8))
         // Call the `onSubmit` callback to let the parent component know the form was submitted successfully
-        onSubmit(pullData);
+        onSubmit();
     }else {
         setRequestStatus('error')
         setAlertText('Create failed. Please check your input and try again.')

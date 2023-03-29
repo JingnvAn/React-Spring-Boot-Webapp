@@ -111,16 +111,22 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new JSONArray(createdProductList).toString(4));
     }
 
-    @GetMapping(value = "/get-us-traditional-holidays")
-    @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<String> getTraditionalUsHolidays() {
-        return ResponseEntity.ok(holidayHelper.getUsTraditionalHolidays().toString());
+    private List<String> getTraditionalUsHolidays() {
+        return holidayHelper.getUsTraditionalHolidays();
     }
 
-    @GetMapping(value = "/get-user-holidays")
+    private List<String> getUserDefinedHolidays() {
+        return holidayHelper.getUserDefinedHolidays();
+    }
+
+    @GetMapping(value = "/get-all-holidays")
     @CrossOrigin(origins = "http://localhost:3000")
-    public ResponseEntity<String> getUserDefinedHolidays() {
-        return ResponseEntity.ok(holidayHelper.getUserDefinedHolidays().toString());
+    public ResponseEntity<String> getAllHolidays() {
+        JSONObject res = new JSONObject();
+        res.put("us", getTraditionalUsHolidays());
+        res.put("mfr", getUserDefinedHolidays());
+
+        return ResponseEntity.ok(res.toString(4));
     }
 
     @PostMapping(value = "/set-user-holidays")

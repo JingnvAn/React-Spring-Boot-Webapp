@@ -7,11 +7,10 @@ import TablePagination from '@mui/material/TablePagination';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import ProductTableRow from "@/components/ProductTableRow";
-import CustomizedImage from "./CustomizedImage";
 import {useEffect, useState} from "react";
 import {API_URL} from "@/constant/constant";
-import { Container } from '@mui/system';
 import {CircularProgress} from "@mui/material";
+import Image from "next/image";
 
 const ProductTable = ({ pullNewData }) => {
     const [products, setProducts] = useState([]);
@@ -72,16 +71,17 @@ const ProductTable = ({ pullNewData }) => {
     }
 
     // render cute dog image if no data to display
-    if (products.length == 0){
+    if (products.length === 0){
         return (
-            // <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-            //     <TableContainer sx={{ maxHeight: 440 }}>
-            //
-            //     </TableContainer>
-            // </Paper>
-
-            <CustomizedImage sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center'}}/>
-
+            <>
+                <Image
+                    src="/images/bao.png"
+                    alt="A cute dog smiling"
+                    width={270}
+                    height={500}
+                />
+                <p>Ooops! There is nothing to display yet.</p>
+            </>
         )
     }
 

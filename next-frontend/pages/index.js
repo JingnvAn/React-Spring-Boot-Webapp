@@ -9,7 +9,9 @@ function Home() {
         <title>Seller Helper</title>
       </Head>
       <Layout page={0}>
-        <h2>Welcome to Seller Helper!</h2>
+        <h2 style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start'}}>
+            Welcome to Seller Helper!
+        </h2>
       </Layout>
     </>
   )

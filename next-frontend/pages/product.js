@@ -7,7 +7,7 @@ import Layout from "@/components/Layout";
 function Product () {
     const [pullNewData, setPullNewDate] = useState('')
 
-    const onSubmit = () => {
+    const onSubmit = (msg) => {
        console.log("submitted")
     }
 
