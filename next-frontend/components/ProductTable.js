@@ -12,7 +12,7 @@ import {useEffect, useState} from "react";
 import {API_URL} from "@/constant/constant";
 import { Container } from '@mui/system';
 
-export default function ProductTable() {
+const ProductTable = ({ pullNewData }) => {
     const [products, setProducts] = useState([]);
     const [columns, setColumns] = useState([]);
     const [page, setPage] = useState(0);
@@ -52,7 +52,8 @@ export default function ProductTable() {
             }
         };
         fetchData();
-    }, []);
+        console.log("pull?"+pullNewData)
+    }, [pullNewData]);
 
 
     const slicedProducts = products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
@@ -75,7 +76,7 @@ export default function ProductTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {slicedProducts.map((product) => (
+                        {slicedProducts.sort((p,q) => q.productId - p.productId).map((product) => (
                             <ProductTableRow key={product.productId} product={product} columns={columns}/>
                         ))}
                     </TableBody>
@@ -93,3 +94,5 @@ export default function ProductTable() {
         </Paper>
     );
 }
+
+export default ProductTable

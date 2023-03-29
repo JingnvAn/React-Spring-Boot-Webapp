@@ -85,10 +85,15 @@ public class ProductController {
     @PostMapping(value="/create")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> createProduct(@RequestBody String request) {
-        productValidator.validateInput(request);
-        ProductEntity product = productService.saveProduct(request);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(new JSONObject(product).toString(4));
+        try {
+            logger.debug("request received: " + request);
+            productValidator.validateInput(request);
+            ProductEntity product = productService.saveProduct(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(new JSONObject(product).toString(4));
+        } catch (Exception e) {
+            logger.debug("exception found: " + e);
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
     @PostMapping(value="/create-batch")

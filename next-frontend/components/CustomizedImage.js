@@ -10,7 +10,7 @@ const CustomizedImage = () => {
             width={270}
             height={500}
         />
-        <p>Ooops! There's nothing to display yet.</p>
+        <p>Ooops! There is nothing to display yet.</p>
     </Container>
   )
 }
