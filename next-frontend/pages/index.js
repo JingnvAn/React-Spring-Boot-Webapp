@@ -1,13 +1,21 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-import ProductTableRow from "../components/ProductTableRow"
 import NavBar from "@/components/NavBar";
 import ProductTable from "../components/ProductTable";
-const inter = Inter({ subsets: ['latin'] })
+import InputBox from '@/components/InputBox';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
+  const [pullNewData, setPullNewDate] = useState('')
+
+  const onSubmit = (msg) => {
+    setPullNewDate('pull')
+  }
+
+  useEffect(() => {
+    console.log("rerender!")
+  }, [pullNewData])
+
   return (
     <>
       <Head>
@@ -17,13 +25,10 @@ export default function Home() {
           <NavBar />
 
         <div className={styles.description}>
-            <ProductTable />
-            {/*<ProductTableRow />*/}
+          <ProductTable pullNewData={pullNewData}/>
         </div>
-        <div className={styles.center}>
-        </div>
-
-        <div className={styles.grid}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', height: '100vh' }}>
+          <InputBox onSubmit={onSubmit} />
         </div>
       </main>
     </>
