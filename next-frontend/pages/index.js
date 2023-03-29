@@ -2,8 +2,8 @@ import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import NavBar from "@/components/NavBar";
 import ProductTable from "../components/ProductTable";
-import InputBox from '@/components/InputBox';
 import { useEffect, useState } from 'react';
+import DialogWindow from '@/components/DialogWindow';
 
 export default function Home() {
   const [pullNewData, setPullNewDate] = useState('')
@@ -22,13 +22,12 @@ export default function Home() {
         <title>Seller Helper</title>
       </Head>
       <main className={styles.main}>
-          <NavBar />
-
         <div className={styles.description}>
+          <NavBar />
           <ProductTable pullNewData={pullNewData}/>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', height: '100vh' }}>
-          <InputBox onSubmit={onSubmit} />
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start'}}>
+          <DialogWindow onSubmit={onSubmit} />
         </div>
       </main>
     </>

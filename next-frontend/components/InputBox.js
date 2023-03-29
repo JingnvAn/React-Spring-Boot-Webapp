@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { API_URL } from '@/constant/constant';
-import { TextField, Checkbox, Button, FormControlLabel, FormGroup, FormLabel, FormControl } from '@mui/material';
+import { Grid, Snackbar, Alert, TextField, Checkbox, Button, FormControlLabel, FormGroup, FormLabel, FormControl } from '@mui/material';
 import { Container } from '@mui/system';
-import { Snackbar, Alert } from '@mui/material';
 
 
-const InputBox = ({ onSubmit }) => {
+const InputBox = ({ onSubmit, onClose}) => {
   const [maxBusinessDaysToShip, setMaxBusinessDaysToShip] = useState('');
   const [shipOnWeekends, setShipOnWeekends] = useState(false);
   const [inventoryQuantity, setInventoryQuantity] = useState('');
@@ -113,7 +112,15 @@ const InputBox = ({ onSubmit }) => {
                     />
                     <br />
                     <br />
-                    <Button variant="contained" color="primary" type="submit">Create</Button>
+                    <Grid container spacing={1}>
+                        <Grid item xs={7}>
+                            <Button variant="outlined" color="primary" onClick={onClose}>Cancel</Button>
+                        </Grid>
+                        <Grid item xs={5}>
+                            <Button variant="contained" color="primary" type="submit">Submit</Button>
+                        </Grid>
+                    </Grid> 
+                    <br />                
                 </FormGroup>
             </FormControl>
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{vertical:'bottom',horizontal:'center'}}>
