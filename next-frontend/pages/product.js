@@ -1,8 +1,7 @@
-import NavBar from "@/components/NavBar";
 import ProductTable from "@/components/ProductTable";
-import DialogWindow from "@/components/DialogWindow";
 import {useEffect, useState} from "react";
 import Layout from "@/components/Layout";
+import ProductDialog from "@/components/ProductDialog";
 
 function Product () {
     const [pullNewData, setPullNewDate] = useState('')
@@ -21,7 +20,7 @@ function Product () {
                 <ProductTable pullNewData={pullNewData}/>
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start'}}>
-                <DialogWindow onSubmit={onSubmit} />
+                <ProductDialog onSubmit={onSubmit} />
             </div>
         </Layout>
     )

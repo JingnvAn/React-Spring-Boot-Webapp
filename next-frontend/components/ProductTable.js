@@ -70,18 +70,10 @@ const ProductTable = ({ pullNewData }) => {
         );
     }
 
-    // render cute dog image if no data to display
+    // render text if no data to display
     if (products.length === 0){
         return (
-            <>
-                <Image
-                    src="/images/bao.png"
-                    alt="A cute dog smiling"
-                    width={270}
-                    height={500}
-                />
-                <p>Ooops! There is nothing to display yet.</p>
-            </>
+            <p>Ooops! There is nothing to display yet.</p>
         )
     }
 

@@ -132,6 +132,7 @@ public class ProductController {
     @PostMapping(value = "/set-user-holidays")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> setUserDefinedHolidays(@RequestBody String request) {
+        logger.debug("set user holiday: "+ request);
         if(request == null || request.isEmpty()){
             throw new ValidationException(String.format(ErrorMessage.INVALID_DATE_FORMAT.getMessage(), ""));
         }

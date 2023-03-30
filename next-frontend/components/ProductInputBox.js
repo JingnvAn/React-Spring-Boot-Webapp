@@ -4,7 +4,7 @@ import { Grid, Snackbar, Alert, TextField, Checkbox, Button, FormControlLabel, F
 import { Container } from '@mui/system';
 
 
-const InputBox = ({ onSubmit, onClose}) => {
+const ProductInputBox = ({ onSubmit, onClose}) => {
   const [maxBusinessDaysToShip, setMaxBusinessDaysToShip] = useState('');
   const [shipOnWeekends, setShipOnWeekends] = useState(false);
   const [inventoryQuantity, setInventoryQuantity] = useState('');
@@ -78,7 +78,6 @@ const InputBox = ({ onSubmit, onClose}) => {
             event.preventDefault();
             handleSubmit();
             }}>
-                <FormLabel component="legend">Create a Product</FormLabel>
                 <FormGroup>
                     <TextField
                         label="Max Business Days To Ship"
@@ -132,4 +131,4 @@ const InputBox = ({ onSubmit, onClose}) => {
   );
 };
 
-export default InputBox;
+export default ProductInputBox;

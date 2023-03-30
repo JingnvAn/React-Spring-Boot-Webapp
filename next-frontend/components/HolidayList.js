@@ -35,7 +35,7 @@ function MfrList(props) {
             </List>)
     }
 }
-const HolidayComponent = () => {
+const HolidayList = () => {
     const [isLoading, setIsLoading] = useState(true); // add loading state
     const [defaultHolidays, setDefaultHolidays] = useState([])
     const [mfrHolidays, setMfrHolidays] = useState([]) // manufacture defined holidays
@@ -99,4 +99,4 @@ const HolidayComponent = () => {
     );
 }
 
-export default HolidayComponent
+export default HolidayList

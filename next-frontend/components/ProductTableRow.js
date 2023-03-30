@@ -3,22 +3,20 @@ import { useState, useEffect } from "react";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import {API_URL} from "@/constant/constant";
-import ShippingDatePicker from "./ShippingDatePicker";
+import DatePickerComponent from "./DatePickerComponent";
 
 const ProductTableRow = ({product, columns}) => {
     const [purchaseDate, setPurchaseDate] = useState(new Date().toISOString().slice(0,10));
     const [shippingDate, setShippingDate] = useState("TBD");
     
     const handleShippingDateChange = (newDate) => {
-        console.log(newDate)
         setPurchaseDate(newDate)
-        console.log("set new Date in row!")
     }
     
     const handleRowData = (product, column) => {
         let value = "test";
         if (column.id === "purchaseDate") {
-            return <ShippingDatePicker handleShippingDateChange={handleShippingDateChange}/>
+            return <DatePickerComponent handleShippingDateChange={handleShippingDateChange}/>
         } else if (column.id === "shippingDate") {
             value = shippingDate
         } else {
