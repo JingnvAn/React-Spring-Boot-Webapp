@@ -52,7 +52,7 @@ docker stop <id-returned-from-step-2>
 ## API Documentation
 ### Base URL
 
-http://localhost:8080/product
+http://localhost:8080/products
 
 ### Endpoints
 1. **GET /all**
@@ -60,21 +60,21 @@ http://localhost:8080/product
    Get all products in the database.
    - Request Arguments: None
    - Returns a list of all products in the database as a JSON string.
-   - Example: `curl http://localhost:8080/product/all`
+   - Example: `curl http://localhost:8080/products/all`
 
 2. **GET /{id}**
 
     Returns a single product by ID in JSON format. If the product with the specified ID is not found, returns a 404 Not Found status code.
     - Required request Arguments: id (int)
     - Returns a product with the given id as a JSON string.
-    - Example: `curl http://localhost:8080/product/1`
+    - Example: `curl http://localhost:8080/products/1`
 
 3. **GET /shipping-date/{id}**
 
    Calculates and returns the shipping date for a product by ID in format (yyyy-MM-dd). If the product with the specified ID is not found, returns a 404 Not Found status code.
     - Required request Arguments: id (int)
     - Returns the shipping date of the product with the given id as a JSON string.
-    - Example: `curl http://localhost:8080/product/shipping-date/1`
+    - Example: `curl http://localhost:8080/products/shipping-date/1`
 
 4. **GET /shipping-date (with query parameters)**
 
@@ -86,7 +86,7 @@ during the calculation, returns a 500 Internal Server Error status code.
         - maxDaysToShip (int): The maximum number of days to ship the product
         - shipOnWeekends (boolean): Whether the product can be shipped on weekends
     - Returns the shipping date of the product with the given id as a JSON string.
-    - Example: `curl http://localhost:8080/product/shipping-date?purchaseDate=2023-03-30&maxDaysToShip=2&shipOnWeekends=true`
+    - Example: `curl http://localhost:8080/products/shipping-date?purchaseDate=2023-03-30&maxDaysToShip=2&shipOnWeekends=true`
 
 5. **POST /create**
 
@@ -97,20 +97,20 @@ during the calculation, returns a 500 Internal Server Error status code.
         - maxBusinessDaysToShip (int): The maximum number of days to ship the product
         - shipOnWeekends (boolean): Whether the product can be shipped on weekends
     - Request Body: A JSON string representing the product to be created.
-    - Example: `curl -X POST -H "Content-Type: application/json" -d '{"productMame": "Product 1","maxBusinessDaysToShip": 2, "shipOnWeekends": true}' http://localhost:8080/product/create`
+    - Example: `curl -X POST -H "Content-Type: application/json" -d '{"productMame": "Product 1","maxBusinessDaysToShip": 2, "shipOnWeekends": true}' http://localhost:8080/products/create`
 
 6. **GET /get-all-holidays**
 
     Returns a list of all holidays in the database.
     - Required request Arguments: None
     - Returns a list of all holidays in the database as a JSON string.
-    - Example: `curl http://localhost:8080/product/get-all-holidays`
+    - Example: `curl http://localhost:8080/products/get-all-holidays`
    
 7. **POST /set-user-holidays**
 
     Add a list of holidays to the database. If the holidays are successfully added, returns a 200 Created status code. If the holidays are not added, returns a 500 Internal Server Error status code.
     - Request Body: A JSON string representing the list of holidays in the format of (MM-dd-yyyy) to be added.
-    - Example: `curl -X POST -H "Content-Type: application/json" -d '["01-01-2024", "01-18-2024", "02-15-2024", "05-31-2024", "07-05-2024", "09-06-2024", "10-11-2024", "11-11-2024", "11-25-2024", "12-24-2024", "12-25-2024", "12-31-2024"]' http://localhost:8080/product/set-user-holidays`
+    - Example: `curl -X POST -H "Content-Type: application/json" -d '["01-01-2024", "01-18-2024", "02-15-2024", "05-31-2024", "07-05-2024", "09-06-2024", "10-11-2024", "11-11-2024", "11-25-2024", "12-24-2024", "12-25-2024", "12-31-2024"]' http://localhost:8080/products/set-user-holidays`
 
 *There are a few other endpoints added for the purpose of developing and debugging, since the frontend is not interacting with them they
 are not documented here. However, feel free to check out the source code for more details.
