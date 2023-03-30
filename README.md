@@ -97,7 +97,7 @@ during the calculation, returns a 500 Internal Server Error status code.
         - maxBusinessDaysToShip (int): The maximum number of days to ship the product
         - shipOnWeekends (boolean): Whether the product can be shipped on weekends
     - Request Body: A JSON string representing the product to be created.
-    - Example: `curl -X POST -H "Content-Type: application/json" -d '{"productMame": "Product 1","maxBusinessDaysToShip": 2, "shipOnWeekends": true}' http://localhost:8080/products/create`
+    - Example: `curl -X POST -H "Content-Type: application/json" -d '{"productName": "Product 1","maxBusinessDaysToShip": 2, "shipOnWeekends": true, "inventoryQuantity": 50}' http://localhost:8080/products/create`
 
 6. **GET /get-all-holidays**
 
@@ -110,7 +110,7 @@ during the calculation, returns a 500 Internal Server Error status code.
 
     Add a list of holidays to the database. If the holidays are successfully added, returns a 200 Created status code. If the holidays are not added, returns a 500 Internal Server Error status code.
     - Request Body: A JSON string representing the list of holidays in the format of (MM-dd-yyyy) to be added.
-    - Example: `curl -X POST -H "Content-Type: application/json" -d '["01-01-2024", "01-18-2024", "02-15-2024", "05-31-2024", "07-05-2024", "09-06-2024", "10-11-2024", "11-11-2024", "11-25-2024", "12-24-2024", "12-25-2024", "12-31-2024"]' http://localhost:8080/products/set-user-holidays`
+    - Example: `curl -X POST -H "Content-Type: application/json" -d '"01-01-2024", "01-18-2024", "02-15-2024", "05-31-2024", "07-05-2024", "09-06-2024", "10-11-2024", "11-11-2024", "11-25-2024", "12-24-2024", "12-25-2024", "12-31-2024"' http://localhost:8080/products/set-user-holidays`
 
 *There are a few other endpoints added for the purpose of developing and debugging, since the frontend is not interacting with them they
 are not documented here. However, feel free to check out the source code for more details.
