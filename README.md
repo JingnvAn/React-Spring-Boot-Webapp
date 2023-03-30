@@ -1,4 +1,6 @@
 # The Seller Helper Web App
+Demo video: https://youtu.be/2LdZqFgkW_U
+
 This is a demo web application using Spring Boot for backend and [Next.js](https://nextjs.org/) (buit on top of the React framework) for Frontend.
 The main function is to allow users to create a product, and auto-calculate the shipping date for the product based on the purchase date and other information.
 
