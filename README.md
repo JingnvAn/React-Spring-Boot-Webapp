@@ -7,7 +7,7 @@ The main function is to allow users to create a product, and auto-calculate the 
 There are three pages in the app: `/home`, `/product`, and `holiday`. On the product page, users can create a product and see the shipping date for the product. On the holiday page, users can add holidays to the database. The shipping date calculation will take the holidays into account.
 
 ## Get Started
-We'll use docker to run this project. The following instruction assumes you have docker installed. If you do not have docker setup, check out the [docker docs](https://docs.docker.com/desktop/install/mac-install/).
+We'll use docker to run this project. The following instruction assumes you have docker installed. If you do not have docker setup, check out the [docker docs](https://docs.docker.com/desktop/install/mac-install/). Most likely you just need to download the docker desktop app and login, then you'll be able to run the following docker commands.
 
 1. **Pull the backend image from Docker Hub**
 ```
@@ -37,7 +37,7 @@ docker pull jingnu/seller-helper-frontend
 
 5. **Create and run a new container for the frontend from the image we just pulled**
 ```
-docker run -p 3000:3000 seller-helper-frontend
+docker run -p 3000:3000 jingnu/seller-helper-frontend
 ```
 You should see the above command returns: `ready - started server on 0.0.0.0:3000, url: http://localhost:3000`. Now if you go to the localhost, you should see the app.
 
