@@ -1,3 +1,7 @@
+/**
+ * Seller Helper Service - ProductService
+ * This class is responsible for all the business logic for the Product Entity
+ */
 package com.sellerhelper.service;
 
 import com.sellerhelper.constant.ErrorMessage;
@@ -23,6 +27,10 @@ public class ProductService {
     ProductRepository productRepository;
     private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
 
+    /**
+     * This method returns all the products in the database
+     * @return - a list of products
+     */
     public List<ProductEntity> getAllProducts() {
         logger.debug("About to getAllProducts ...");
         List<ProductEntity> products = new ArrayList<>();
@@ -37,6 +45,11 @@ public class ProductService {
         return productRepository.findById(id).orElse(null);
     }
 
+    /**
+     * This method saves a product to the database
+     * @param input - the product json
+     * @return - the saved product
+     */
     @Transactional
     public ProductEntity saveProduct(String input){
         ProductEntity product = new ProductEntity();
@@ -49,6 +62,11 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    /**
+     * This method calculates the ship date based on the product id
+     * @param productId - the product id
+     * @return - the ship date
+     */
     public LocalDate calculateShipDateById(String productId) {
         ProductEntity product = getProductById(productId);
         if(product == null){
@@ -79,6 +97,14 @@ public class ProductService {
         return localDate.getMonthValue()+"-"+localDate.getDayOfMonth()+"-"+localDate.getYear();
     }
 
+    /**
+     * This method calculates the ship date based on the purchase date
+     * @param dateString - string purchase date
+     * @param maxDaysToShip - int max days to ship
+     * @param shipOnWeekends - boolean ship on weekends
+     * @param holidayHelper - HolidayHelper object
+     * @return - LocalDate ship date
+     */
     public LocalDate calculateShipDateByPurchaseDate(String dateString,
                                                      int maxDaysToShip,
                                                      boolean shipOnWeekends,
@@ -89,22 +115,30 @@ public class ProductService {
         if(shipOnWeekends){
             shipDate = purchaseDate.plusDays(maxDaysToShip-1);
         }else{
-            int daysToAdd = maxDaysToShip;
             shipDate = purchaseDate;
-            while(daysToAdd > 1){
-                shipDate = shipDate.plusDays(1);
-                if(shipDate.getDayOfWeek() == DayOfWeek.SATURDAY ||
-                        shipDate.getDayOfWeek() == DayOfWeek.SUNDAY ||
-                        isHoliday(shipDate, holidayHelper)){
-                    daysToAdd++;
+            int count = 0;
+            while(count != maxDaysToShip){
+                if(shipDate.getDayOfWeek() != DayOfWeek.SATURDAY &&
+                        shipDate.getDayOfWeek() != DayOfWeek.SUNDAY &&
+                        !isHoliday(shipDate, holidayHelper)){
+                    count++;
                 }
-                daysToAdd--;
+                if(count == maxDaysToShip){
+                    break;
+                }
+                shipDate = shipDate.plusDays(1);
             }
         }
         logger.debug("Shipping date is " + dateTranslator(shipDate));
         return shipDate;
     }
 
+    /**
+     * This method checks if the date is a holiday
+     * @param date  - LocalDate
+     * @param holidayHelper - HolidayHelper object
+     * @return - boolean indicating if the date is a holiday
+     */
     private boolean isHoliday(LocalDate date, HolidayHelper holidayHelper) {
         return holidayHelper.isHoliday(date);
     }

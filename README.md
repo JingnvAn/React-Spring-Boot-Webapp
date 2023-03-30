@@ -1,5 +1,8 @@
 # The Seller Helper Web App
-This project is a demo web application using Spring Boot for backend and [Next.js](https://nextjs.org/) (buit on top of the React framework) for Frontend.
+This is a demo web application using Spring Boot for backend and [Next.js](https://nextjs.org/) (buit on top of the React framework) for Frontend.
+The main function is to allow users to create a product, and auto-calculate the shipping date for the product based on the purchase date and other information.
+
+There are three pages in the app: `/home`, `/product`, and `holiday`. On the product page, users can create a product and see the shipping date for the product. On the holiday page, users can add holidays to the database. The shipping date calculation will take the holidays into account.
 
 ## Get Started
 We'll use docker to run this project. The following instruction assumes you have docker installed. If you do not have docker setup, check out the [docker docs](https://docs.docker.com/desktop/install/mac-install/).
@@ -21,7 +24,7 @@ docker ps | grep seller-helper-api-server:latest
 ```
 you should see an output like:
 ```
-4442d95d8fb8   seller-helper-api-server:latest   "java -jar seller-he…"   3 hours ago      Up 3 hours      0.0.0.0:8080->8080/tcp   naughty_chatterjee
+79f89a03144f   seller-helper-api-server:latest   "java -jar seller-he…"   3 seconds ago   Up 2 seconds   0.0.0.0:8080->8080/tcp   fervent_noyce
 ```
 In case you do not see the above output, use `docker logs <id-returned-from-step-2>` to debug.
 
@@ -34,9 +37,15 @@ docker pull jingnu/seller-helper-frontend
 ```
 docker run -p 3000:3000 seller-helper-frontend
 ```
-You should see the above command returned: `ready - started server on 0.0.0.0:3000, url: http://localhost:3000`. Now if you go to the localhost, you should see the app.
+You should see the above command returns: `ready - started server on 0.0.0.0:3000, url: http://localhost:3000`. Now if you go to the localhost, you should see the app.
 
 6. **All set! You should be able to interacting with the app on [`http://localhost:3000`](http://localhost:3000)!**
+
+
+7. **Stop the docker container using:**
+```
+docker stop <id-returned-from-step-2>
+```
 
 ## API Documentation
 ### Base URL
@@ -101,6 +110,6 @@ during the calculation, returns a 500 Internal Server Error status code.
     - Request Body: A JSON string representing the list of holidays in the format of (MM-dd-yyyy) to be added.
     - Example: `curl -X POST -H "Content-Type: application/json" -d '["01-01-2024", "01-18-2024", "02-15-2024", "05-31-2024", "07-05-2024", "09-06-2024", "10-11-2024", "11-11-2024", "11-25-2024", "12-24-2024", "12-25-2024", "12-31-2024"]' http://localhost:8080/product/set-user-holidays`
 
-*There are a few other endpoints dded for the purpose of developing and debugging, since the frontend is not interacting with them they
+*There are a few other endpoints added for the purpose of developing and debugging, since the frontend is not interacting with them they
 are not documented here. However, feel free to check out the source code for more details.
 
