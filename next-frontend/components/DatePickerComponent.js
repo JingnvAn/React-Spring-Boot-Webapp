@@ -4,7 +4,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-const ShippingDatePicker = ({ handleShippingDateChange }) => {
+const DatePickerComponent = ({ handleShippingDateChange }) => {
   const [selectedDate, setSelectedDate] = React.useState();
   const [defaultDate, setDefaultDate] = React.useState(dayjs("2023-03-28"));
 
@@ -46,4 +46,4 @@ const ShippingDatePicker = ({ handleShippingDateChange }) => {
   )
 }
 
-export default ShippingDatePicker
+export default DatePickerComponent

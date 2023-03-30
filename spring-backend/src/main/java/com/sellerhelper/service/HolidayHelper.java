@@ -13,11 +13,11 @@ import java.util.*;
 
 @Component
 public class HolidayHelper {
-    private final List<String> usTraditionalHolidayDates = Arrays.asList("01-02","01-16","05-29","06-19","07-04","09-04","11-10","12-25","11-23");
+    private final List<String> usTraditionalHolidayDates = Arrays.asList("01-02","01-16","05-29","06-19","07-04","09-04","11-10","11-23","12-25");
     private final Set<String> userDefinedHolidays = new HashSet<>();
 
     public List<String> getUserDefinedHolidays(){
-        return userDefinedHolidays.stream().toList();
+        return this.userDefinedHolidays.stream().toList();
     }
 
     public List<String> getUsTraditionalHolidays() {

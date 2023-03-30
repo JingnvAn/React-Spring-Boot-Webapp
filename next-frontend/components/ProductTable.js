@@ -7,27 +7,29 @@ import TablePagination from '@mui/material/TablePagination';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import ProductTableRow from "@/components/ProductTableRow";
-import CustomizedImage from "./CustomizedImage";
 import {useEffect, useState} from "react";
 import {API_URL} from "@/constant/constant";
-import { Container } from '@mui/system';
+import {CircularProgress} from "@mui/material";
+import Image from "next/image";
 
 const ProductTable = ({ pullNewData }) => {
     const [products, setProducts] = useState([]);
     const [columns, setColumns] = useState([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-  
+    const [isLoading, setIsLoading] = useState(true); // add loading state
+
     const handleChangePage = (event, newPage) => {
-      setPage(newPage);
+        setPage(newPage);
     };
-  
+
     const handleChangeRowsPerPage = (event) => {
-      setRowsPerPage(+event.target.value);
-      setPage(0);
+        setRowsPerPage(+event.target.value);
+        setPage(0);
     };
 
     useEffect(() => {
+        setIsLoading(true);
         const fetchData = async () => {
             try {
                 const response = await fetch(API_URL.getAllProduct, {
@@ -49,20 +51,35 @@ const ProductTable = ({ pullNewData }) => {
                 setColumns(columns);
             } catch (error) {
                 console.log(error);
+            } finally { // set loading state to false
+                setIsLoading(false);
             }
         };
         fetchData();
         console.log("pull?"+pullNewData)
     }, [pullNewData]);
 
+    // render loading state until the data is ready
+    if (isLoading) {
+        return (
+            <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                <TableContainer sx={{ maxHeight: 440 }}>
+                    <CircularProgress />
+                </TableContainer>
+            </Paper>
+        );
+    }
+
+    // render text if no data to display
+    if (products.length === 0){
+        return (
+            <p>Ooops! There is nothing to display yet.</p>
+        )
+    }
 
     const slicedProducts = products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     return (
-        products.length === 0 ? 
-        <Container>
-            <CustomizedImage />
-        </Container> :
         <Paper sx={{ width: '100%', overflow: 'hidden' }}>
             <TableContainer sx={{ maxHeight: 440 }}>
                 <Table stickyHeader aria-label="sticky table">
@@ -95,4 +112,4 @@ const ProductTable = ({ pullNewData }) => {
     );
 }
 
-export default ProductTable
+export default ProductTable;

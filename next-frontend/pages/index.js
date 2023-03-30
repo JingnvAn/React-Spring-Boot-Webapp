@@ -1,36 +1,20 @@
 import Head from 'next/head'
-import styles from '@/styles/Home.module.css'
-import NavBar from "@/components/NavBar";
-import ProductTable from "../components/ProductTable";
-import InputBox from '@/components/InputBox';
-import { useEffect, useState } from 'react';
+import Layout from "@/components/Layout";
 
-export default function Home() {
-  const [pullNewData, setPullNewDate] = useState('')
-
-  const onSubmit = (msg) => {
-    setPullNewDate('pull')
-  }
-
-  useEffect(() => {
-    console.log("rerender!")
-  }, [pullNewData])
+function Home() {
 
   return (
     <>
       <Head>
         <title>Seller Helper</title>
       </Head>
-      <main className={styles.main}>
-          <NavBar />
-
-        <div className={styles.description}>
-          <ProductTable pullNewData={pullNewData}/>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', height: '100vh' }}>
-          <InputBox onSubmit={onSubmit} />
-        </div>
-      </main>
+      <Layout page={0}>
+        <h2 style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start'}}>
+            Welcome to Seller Helper!
+        </h2>
+      </Layout>
     </>
   )
 }
+
+export default Home
