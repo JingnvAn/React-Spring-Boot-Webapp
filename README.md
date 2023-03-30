@@ -86,7 +86,10 @@ during the calculation, returns a 500 Internal Server Error status code.
         - maxDaysToShip (int): The maximum number of days to ship the product
         - shipOnWeekends (boolean): Whether the product can be shipped on weekends
     - Returns the shipping date of the product with the given id as a JSON string.
-    - Example: `curl http://localhost:8080/products/shipping-date?purchaseDate=2023-03-30&maxDaysToShip=2&shipOnWeekends=true`
+    - Example: `curl --location --request GET 'http://localhost:8080/products/shipping-date' \
+--form 'purchaseDate="2023-04-02"' \
+--form 'maxDaysToShip="6"' \
+--form 'shipOnWeekends="false"'`
 
 5. **POST /create**
 
