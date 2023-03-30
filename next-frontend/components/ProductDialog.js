@@ -1,30 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
-import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
-import ProductInputBox from "@/components/ProductInputBox";
-
-SimpleDialog.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    open: PropTypes.bool.isRequired,
-
-};
-
-function SimpleDialog(props) {
-    const { onClose, open } = props;
-
-    const handleClose = () => {
-        onClose();
-    };
-
-    return (
-        <Dialog onClose={handleClose} open={open} >
-            <DialogTitle>Add a new product</DialogTitle>
-            <ProductInputBox onSubmit={props.onSubmit} onClose={props.onClose}/>
-        </Dialog>
-    );
-}
+import ProductInputForm from '@/components/ProductInputForm';
+import BaseDialog from '@/components/BaseDialog';
 
 const ProductDialog = ({ onSubmit }) => {
     const [open, setOpen] = React.useState(false);
@@ -43,13 +21,19 @@ const ProductDialog = ({ onSubmit }) => {
             <Button variant="contained" onClick={handleClickOpen}>
                 Add New Product
             </Button>
-            <SimpleDialog
+            <BaseDialog
+                title="Add a new product"
                 open={open}
                 onClose={handleClose}
-                onSubmit={onSubmit}
-            />
+            >
+                <ProductInputForm onSubmit={onSubmit} onClose={handleClose} />
+            </BaseDialog>
         </div>
     );
-}
+};
 
-export default ProductDialog
+ProductDialog.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+};
+
+export default ProductDialog;

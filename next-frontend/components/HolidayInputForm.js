@@ -7,7 +7,7 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import * as React from "react";
 
-const HolidayInputBox = ({ onSubmit, onClose }) => {
+const HolidayInputForm = ({ onSubmit, onClose }) => {
     const [holidayDate, setHolidayDate] = useState(null);
     const [holidayName, setHolidayName] = useState(''); //TODO: add name for each holiday
     const [open, setOpen] = useState(false);
@@ -118,4 +118,4 @@ const HolidayInputBox = ({ onSubmit, onClose }) => {
     );
 };
 
-export default HolidayInputBox;
+export default HolidayInputForm;

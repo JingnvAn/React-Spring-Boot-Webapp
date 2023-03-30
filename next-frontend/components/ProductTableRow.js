@@ -40,7 +40,6 @@ const ProductTableRow = ({product, columns}) => {
     }
 
     useEffect(() => {
-        
         getShippingDateFromSellerHelper(product)
         console.log("calculate new shipping date!")
     }, [product, purchaseDate])
@@ -57,6 +56,5 @@ const ProductTableRow = ({product, columns}) => {
         </>
     );
 };
-
 
 export default ProductTableRow;
