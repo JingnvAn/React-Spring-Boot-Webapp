@@ -1,3 +1,7 @@
+/**
+ * This class is the controller for the Product API
+ * It is responsible for all the API calls for the Product Entity
+ */
 package com.sellerhelper.controller;
 
 import com.sellerhelper.constant.ErrorMessage;
@@ -33,6 +37,10 @@ public class ProductController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
+    /**
+     * This method saves a product to the database
+     * @return - the saved product
+     */
     @GetMapping(value="/all")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> getAllProducts(){
@@ -40,6 +48,11 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(new JSONArray(productList).toString(4));
     }
 
+    /**
+     * Get a product by id
+     * @param id - the product id
+     * @return - the product
+     */
     @GetMapping(value="/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> getProductById(@PathVariable String id){
@@ -53,6 +66,11 @@ public class ProductController {
 
     }
 
+    /**
+     * Get shipping date by product id
+     * @param id - a product id
+     * @return - the shipping date
+     */
     @GetMapping(value="/shipping-date/{id}")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> getShippingDate(@PathVariable String id){
@@ -65,6 +83,13 @@ public class ProductController {
         }
     }
 
+    /**
+     * Get shipping date by purchase date
+     * @param purchaseDate - the purchase date
+     * @param maxDaysToShip - the max days to ship
+     * @param shipOnWeekends - whether to ship on weekends
+     * @return - the shipping date
+     */
     @GetMapping(value="/shipping-date")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> getShippingDateByPurchaseDate(@RequestParam("purchaseDate") String purchaseDate,
@@ -82,6 +107,11 @@ public class ProductController {
         }
     }
 
+    /**
+     * Create a product
+     * @param request - a product json string
+     * @return - the created product
+     */
     @PostMapping(value="/create")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> createProduct(@RequestBody String request) {
@@ -96,6 +126,11 @@ public class ProductController {
         }
     }
 
+    /**
+     * Create multiple products
+     * @param request - a list of product json strings
+     * @return - the created products
+     */
     @PostMapping(value="/create-batch")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> createProducts(@RequestBody String request) {
@@ -111,14 +146,26 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new JSONArray(createdProductList).toString(4));
     }
 
+    /**
+     * Get all traditional US holidays
+     * @return - a list of string representing holidays
+     */
     private List<String> getTraditionalUsHolidays() {
         return holidayHelper.getUsTraditionalHolidays();
     }
 
+    /**
+     * Get all user defined holidays
+     * @return - a list of string representing holidays
+     */
     private List<String> getUserDefinedHolidays() {
         return holidayHelper.getUserDefinedHolidays();
     }
 
+    /**
+     * Get all holidays
+     * @return - a list of string representing holidays
+     */
     @GetMapping(value = "/get-all-holidays")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> getAllHolidays() {
@@ -129,6 +176,11 @@ public class ProductController {
         return ResponseEntity.ok(res.toString(4));
     }
 
+    /**
+     * Set user defined holidays
+     * @param request - a list of string representing holidays
+     * @return - a list of string representing holidays
+     */
     @PostMapping(value = "/set-user-holidays")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> setUserDefinedHolidays(@RequestBody String request) {
@@ -150,6 +202,12 @@ public class ProductController {
             return ResponseEntity.internalServerError().body(ErrorMessage.INTERNAL_SERVER_ERROR.getMessage());
         }
     }
+
+    /**
+     * Test if a date is a holiday
+     * @param request - a list of string representing dates
+     * @return - an object containing valid holidays and non-holidays
+     */
     @GetMapping(value = "/holiday-test")
     @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<String> isHoliday(@RequestBody String request) {

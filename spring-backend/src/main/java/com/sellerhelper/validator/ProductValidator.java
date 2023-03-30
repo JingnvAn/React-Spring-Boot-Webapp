@@ -1,11 +1,12 @@
+/**
+ * This class validates the input for the product
+ */
 package com.sellerhelper.validator;
 
 import com.sellerhelper.constant.ErrorMessage;
 import com.sellerhelper.constant.ValidationException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class ProductValidator {
@@ -22,6 +23,10 @@ public class ProductValidator {
 
     }
 
+    /**
+     * This method validates the input for the product
+     * @param input - the product json string
+     */
     public void validateInput(String input){
         if (input == null || input.isEmpty()){
             throw new ValidationException(ErrorMessage.EMPTY_INPUT_GENERAL.getMessage());
@@ -30,6 +35,11 @@ public class ProductValidator {
         validatePropertiesExist(productJson);
 
     }
+
+    /**
+     * This method validates that all the required properties exist in the input
+     * @param product - the product json object
+     */
     private void validatePropertiesExist(JSONObject product) {
         if(product == null)
             throw new ValidationException(ErrorMessage.EMPTY_INPUT_GENERAL.getMessage());
@@ -41,19 +51,6 @@ public class ProductValidator {
                         ErrorMessage.INVALID_INPUT_MISSING_REQUIRED_PROPERTY.getMessage(),
                         p.getValue()));
             }
-        }
-    }
-
-    public void validateUserDefinedHolidays(String input) {
-        if(input == null || input.isEmpty())
-            throw new ValidationException(ErrorMessage.EMPTY_INPUT_GENERAL.getMessage());
-
-        List<String> dates = List.of(input.split(","));
-        for(String d : dates){
-            if(!d.contains("-") || d.split("-").length < 3)
-                throw new ValidationException(String.format(ErrorMessage.INVALID_DATE_FORMAT.getMessage(), d));
-            String[] split = d.split("-");
-
         }
     }
 }
