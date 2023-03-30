@@ -3,8 +3,7 @@ import { API_URL } from '@/constant/constant';
 import { Grid, Snackbar, Alert, TextField, Checkbox, Button, FormControlLabel, FormGroup, FormLabel, FormControl } from '@mui/material';
 import { Container } from '@mui/system';
 
-
-const ProductInputBox = ({ onSubmit, onClose}) => {
+const ProductInputForm = ({ onSubmit, onClose}) => {
   const [maxBusinessDaysToShip, setMaxBusinessDaysToShip] = useState('');
   const [shipOnWeekends, setShipOnWeekends] = useState(false);
   const [inventoryQuantity, setInventoryQuantity] = useState('');
@@ -12,8 +11,6 @@ const ProductInputBox = ({ onSubmit, onClose}) => {
   const [open, setOpen] = useState(false);
   const [requestStatus, setRequestStatus] = useState('error');
   const [alertText, setAlertText] = useState('unknow error');
-
-  const [pullData, setPullData] = useState('')
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -27,16 +24,6 @@ const ProductInputBox = ({ onSubmit, onClose}) => {
     setMaxBusinessDaysToShip('')
     setInventoryQuantity('')
     setProductName('')
-  }
-
-  const generateRandomString = (length) => {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
   }
 
   const handleSubmit = async () => {
@@ -62,7 +49,6 @@ const ProductInputBox = ({ onSubmit, onClose}) => {
         setRequestStatus('success')
         setAlertText('Product created successfully!')
         setOpen(true)
-        setPullData(generateRandomString(8))
         // Call the `onSubmit` callback to let the parent component know the form was submitted successfully
         onSubmit();
     }else {
@@ -131,4 +117,4 @@ const ProductInputBox = ({ onSubmit, onClose}) => {
   );
 };
 
-export default ProductInputBox;
+export default ProductInputForm;

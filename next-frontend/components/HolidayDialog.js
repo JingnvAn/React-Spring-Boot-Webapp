@@ -1,30 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
-import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
-import HolidayInputBox from "@/components/HolidayInputBox";
-
-SimpleDialog.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    open: PropTypes.bool.isRequired,
-
-};
-
-function SimpleDialog(props) {
-    const { onClose, open } = props;
-
-    const handleClose = () => {
-        onClose();
-    };
-
-    return (
-        <Dialog onClose={handleClose} open={open} >
-            <DialogTitle>Add a new holiday</DialogTitle>
-            <HolidayInputBox onSubmit={props.onSubmit} onClose={props.onClose}/>
-        </Dialog>
-    );
-}
+import HolidayInputForm from '@/components/HolidayInputForm';
+import BaseDialog from '@/components/BaseDialog';
 
 const HolidayDialog = ({ onSubmit }) => {
     const [open, setOpen] = React.useState(false);
@@ -43,13 +21,19 @@ const HolidayDialog = ({ onSubmit }) => {
             <Button variant="contained" onClick={handleClickOpen}>
                 Add a new Holiday
             </Button>
-            <SimpleDialog
+            <BaseDialog
+                title="Add a new holiday"
                 open={open}
                 onClose={handleClose}
-                onSubmit={onSubmit}
-            />
+            >
+                <HolidayInputForm onSubmit={onSubmit} onClose={handleClose} />
+            </BaseDialog>
         </div>
     );
-}
+};
 
-export default HolidayDialog
+HolidayDialog.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+};
+
+export default HolidayDialog;

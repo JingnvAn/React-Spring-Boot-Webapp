@@ -10,9 +10,8 @@ import ProductTableRow from "@/components/ProductTableRow";
 import {useEffect, useState} from "react";
 import {API_URL} from "@/constant/constant";
 import {CircularProgress} from "@mui/material";
-import Image from "next/image";
 
-const ProductTable = ({ pullNewData }) => {
+const ProductTable = () => {
     const [products, setProducts] = useState([]);
     const [columns, setColumns] = useState([]);
     const [page, setPage] = useState(0);
@@ -56,8 +55,7 @@ const ProductTable = ({ pullNewData }) => {
             }
         };
         fetchData();
-        console.log("pull?"+pullNewData)
-    }, [pullNewData]);
+    }, []);
 
     // render loading state until the data is ready
     if (isLoading) {

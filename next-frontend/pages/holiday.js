@@ -3,8 +3,8 @@ import Layout from "@/components/Layout";
 import HolidayDialog from "@/components/HolidayDialog";
 
 function Holiday() {
-    const onSubmit = (msg) => {
-        console.log("submitted")
+    const onSubmit = () => {
+        console.log("New Holiday submitted")
     }
 
     return (
